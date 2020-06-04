@@ -55,6 +55,6 @@ for s in range(1000):
 			r,g,b = (v,v,v)
 			img.putpixel((x,y), (r,g,b))
 	"""
-	img = Image.fromarray(np.array(space), "L")
+	img = Image.fromarray(np.array(space, dtype=np.uint8), "L")
 
 	img.save(f"{path}/{s}.png")
