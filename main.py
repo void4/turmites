@@ -43,18 +43,20 @@ class Turmite:
 for i in range(100):
 	turmites.append(Turmite(i/100, randint(0,W-1), randint(0,H-1), randint(0,3)))
 
-for s in range(1000):
-	for t in sample(turmites, len(turmites)):
-		t.step()
+count = 0
+try:
+	for s in range(1000):
+		for t in sample(turmites, len(turmites)):
+			t.step()
 
-	"""
-	img = Image.new("RGB", (W,H))
-	for y in range(H):
-		for x in range(W):
-			v = space[y][x]
-			r,g,b = (v,v,v)
-			img.putpixel((x,y), (r,g,b))
-	"""
-	img = Image.fromarray(np.array(space, dtype=np.uint8), "L")
+		if s % 4 != 0:
+			continue
 
-	img.save(f"{path}/{s}.png")
+		img = Image.fromarray(np.array(space, dtype=np.uint8), "L")
+
+		img.save(f"{path}/{count}.png")
+		count += 1
+except KeyboardInterrupt:
+	pass
+
+os.system(f"convert -delay 10 -loop 0 $(ls -1 {path}/*.png | sort -V) {path}.gif")
